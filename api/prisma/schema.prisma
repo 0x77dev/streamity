@@ -1,0 +1,31 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Camera {
+  id  String @id @default(uuid()) @db.Uuid
+  src String @unique
+
+  @@map("cameras")
+}
+
+model Webhook {
+  id  String @id @default(uuid()) @db.Uuid
+  url String
+
+  @@map("webhooks")
+}
+
+model Face {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique
+  encodings Float[]
+  lastSeen  DateTime @default(now())
+
+  @@map("faces")
+}

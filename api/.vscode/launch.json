@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "command": "yarn dev",
+            "name": "debug:dev",
+            "request": "launch",
+            "autoAttachChildProcesses": true,
+            "type": "node-terminal"
+        },
+        {
+            "command": "yarn start",
+            "name": "debug:start",
+            "request": "launch",
+            "autoAttachChildProcesses": true,
+            "type": "node-terminal"
+        }
+    ]
+}
