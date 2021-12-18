@@ -17,7 +17,7 @@ RUN pip3 install scikit-build
 
 RUN apt install -y software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
-RUN apt update -y; apt install -y gcc-6 g++-6
+RUN apt update -y; apt install -y gcc-6 g++-6 libopenblas-dev liblapack-dev 
 
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 50
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 50
