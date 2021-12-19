@@ -33,7 +33,7 @@ jobs:
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
 
-      - name: Build and push recognition
+      - name: Build and push service
         run: |
           cd ${{ matrix.services }}
-          docker buildx build --platform linux/arm/v7 --push . -t ghcr.io/0x77dev/streamity/recognition:latest-arm
+          docker buildx build --platform linux/arm/v7 --push . -t ghcr.io/0x77dev/streamity/recognition:latest
