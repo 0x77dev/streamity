@@ -6,6 +6,10 @@ on:
 jobs:
   buildx:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        services: ["recognition", "stream", "api"]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,5 +35,5 @@ jobs:
 
       - name: Build and push recognition
         run: |
-          cd recognition
-          docker buildx build --platform linux/arm/v7,linux/amd64 --push . -t ghcr.io/0x77dev/streamity/recognition:latest
+          cd ${{ matrix.services }}
+          docker buildx build --platform linux/arm/v7 --push . -t ghcr.io/0x77dev/streamity/recognition:latest-arm
