@@ -5,12 +5,16 @@ services:
     environment:
       - DATABASE_URL=posgres://postgres:password@localhost:5432/postgres
     network_mode: "host"
+    ports:
+      - 3000:3000
 
   stream:
     depends_on:
       - api
     build: ./stream
     network_mode: "host"
+    ports:
+      - 1025:1025
 
   recognition:
     build:
