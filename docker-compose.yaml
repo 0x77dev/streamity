@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  nats:
+    image: nats:latest
+    restart: unless-stopped
+    ports:
+      - 4222:4222
+      - 8222:8222
+    logging:
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    logging:
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    restart: unless-stopped
+    ports:
+      - 9200:9200
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+volumes:
+  postgres-data: null
+  redis-data: null
+  elasticsearch-data: null
