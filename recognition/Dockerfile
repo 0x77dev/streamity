@@ -1,4 +1,5 @@
-FROM nvidia/cuda:9.0-cudnn7-devel
+ARG BASE_IMAGE nvidia/cuda:9.0-cudnn7-devel@sha256:7058e91c8f3dabb14f98825c42bbf61c843ea621c7d9959d354a8e3669195def
+FROM ${BASE_IMAGE}
 
 WORKDIR /tmp
 RUN apt update -y && apt install -y software-properties-common curl git cmake
