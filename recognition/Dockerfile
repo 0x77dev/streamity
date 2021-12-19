@@ -15,3 +15,7 @@ RUN git clone https://github.com/davisking/dlib.git /tmp/dlib &&\
     python3 setup.py install
 
 RUN python3 -m pip install face_recognition nats-py asyncio
+
+RUN mkdir /app
+COPY *.py /app
+CMD python3 /app
