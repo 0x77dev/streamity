@@ -1,6 +1,8 @@
 ARG BASE_IMAGE=nvidia/cuda:9.0-cudnn7-devel@sha256:ca5e438c73a3bb5f9d2dea21332c16d82fd2cc43ad39a842428bea1e7bdd795c
 FROM $BASE_IMAGE
 
+ENV DEBIAN_FRONTEND=non-interactive
+
 WORKDIR /tmp
 RUN apt update -y && apt install -y software-properties-common curl git cmake
 RUN add-apt-repository ppa:pypy/ppa -y
