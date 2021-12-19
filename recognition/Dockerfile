@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=non-interactive
 WORKDIR /tmp
 RUN apt update -y && apt install -y software-properties-common curl git cmake
 RUN add-apt-repository ppa:pypy/ppa -y
-RUN apt update -y && apt install -y pypy3 pypy3-dev
+RUN apt update -y && apt install -y pypy3 pypy3-dev build-essential
 RUN rm /usr/bin/python3 && ln $(which pypy3) /usr/bin/python3
 RUN curl https://bootstrap.pypa.io/get-pip.py | python3
 
