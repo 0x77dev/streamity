@@ -6,8 +6,8 @@ COPY package.json .
 COPY yarn.lock .
 
 RUN yarn install --silent
-RUN yarn db:generate
 
 COPY . .
 
+RUN yarn db:generate
 CMD yarn start
