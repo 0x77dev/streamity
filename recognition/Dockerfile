@@ -1,4 +1,4 @@
-ARG BASE_IMAGE nvidia/cuda:9.0-cudnn7-devel@sha256:ca5e438c73a3bb5f9d2dea21332c16d82fd2cc43ad39a842428bea1e7bdd795c
+ARG BASE_IMAGE=nvidia/cuda:9.0-cudnn7-devel@sha256:ca5e438c73a3bb5f9d2dea21332c16d82fd2cc43ad39a842428bea1e7bdd795c
 FROM $BASE_IMAGE
 
 WORKDIR /tmp
