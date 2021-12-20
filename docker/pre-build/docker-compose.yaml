@@ -2,22 +2,27 @@ version: "3.3"
 services:
   api:
     image: ghcr.io/0x77dev/streamity/api:latest
-    network_mode: "host"
+    environment:
+      - DATABASE_URL="postgres://postgres:password@postgres:5432/postgres"
+      - ELASTCISEARCH_URL="http://elasticsearch:9200"
+      - NATS_URL="nats://nats:4222"
     ports:
       - 3000:3000
 
   stream:
     depends_on:
       - api
+    environment:
+      - NATS_URL="nats://nats:4222"
     image: ghcr.io/0x77dev/streamity/stream:latest
-    network_mode: "host"
     ports:
       - 1025:1025
 
   recognition:
+    environment:
+      - NATS_URL="nats://nats:4222"
     image: ghcr.io/0x77dev/streamity/recognition:latest
-    runtime: nvidia
-    network_mode: "host"
+    # runtime: nvidia
 
   nats:
     image: nats:latest

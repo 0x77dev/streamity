@@ -6,6 +6,7 @@ import (
 	_ "image/jpeg"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 
@@ -20,7 +21,6 @@ type Camera struct {
 }
 
 func main() {
-	var wg sync.WaitGroup
 	classifier := gocv.NewCascadeClassifier()
 	defer classifier.Close()
 
@@ -29,12 +29,19 @@ func main() {
 		return
 	}
 
-	nc, err := nats.Connect("nats://localhost:4222")
+	nc, err := nats.Connect(os.Getenv("NATS_URL"))
 	if err != nil {
 		panic(err)
 	}
 
-	msg, err := nc.Request("api.camera.get", []byte("get"), 10*time.Second)
+	nc.Subscribe("api.camera.update", func(msg *nats.Msg) {
+    queryCameras(nc, classifier)
+  })
+}
+
+func queryCameras(nc *nats.Conn, classifier gocv.CascadeClassifier) {
+  var wg sync.WaitGroup
+  msg, err := nc.Request("api.camera.get", []byte("{}"), 10*time.Second)
 	if err != nil {
 		panic(err)
 	}
