@@ -1,0 +1,10 @@
+{
+  "name": "@streamity/stream",
+  "version": "0.0.0",
+  "description": "Transforms camera live stream into NATS events that contain frame",
+  "main": "main.go",
+  "repository": "https://github.com/0x77dev/streamity.git",
+  "author": "Mykhailo Marynenko <0x77dev@protonmail.com>",
+  "license": "Apache-2.0",
+  "private": false
+}
