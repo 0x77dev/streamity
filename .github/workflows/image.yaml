@@ -51,7 +51,6 @@ jobs:
           echo '::set-output name=tags::'$TAGS
 
       - name: Build and push service
-        needs: metadata
         run: |
           cd ${{ matrix.service }}
           docker buildx build \
