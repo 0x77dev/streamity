@@ -1,5 +1,29 @@
 version: "3.3"
 services:
+  api:
+    build: ../../api
+    environment:
+      - DATABASE_URL=posgres://postgres:password@localhost:5432/postgres
+    network_mode: "host"
+    ports:
+      - 3000:3000
+
+  stream:
+    depends_on:
+      - api
+    build: ../../stream
+    network_mode: "host"
+    ports:
+      - 1025:1025
+
+  recognition:
+    build:
+      context: ../../recognition
+      args:
+        BASE_IMAGE: nvidia/cuda:9.0-cudnn7-devel@sha256:7058e91c8f3dabb14f98825c42bbf61c843ea621c7d9959d354a8e3669195def
+    runtime: nvidia
+    network_mode: "host"
+
   nats:
     image: nats:latest
     restart: unless-stopped

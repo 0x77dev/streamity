@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        services: ["recognition", "stream", "api"]
+        service: ["recognition", "stream", "api"]
+        platform: ["linux/amd64"]
 
     steps:
       - name: Checkout
@@ -23,6 +24,15 @@ jobs:
         with:
           config: .github/buildkitd.toml
 
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Log in to the Container registry
         uses: docker/login-action@v1
         with:
@@ -30,10 +40,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
+      - name: Generate metadata
+        id: metadata
+        run: |
+          if [[ $GITHUB_REF == 'refs/tags/'* ]]; then
+            TAGS='["ghcr.io/0x77dev/streamity/${{ matrix.service }}:latest","ghcr.io/0x77dev/streamity/${{ matrix.service }}:'${GITHUB_REF/refs\/tags\//}'"]'
+          else
+            TAGS='["ghcr.io/0x77dev/streamity/${{ matrix.service }}:latest"]'
+          fi
+          echo '::set-output name=tags::'$TAGS
 
       - name: Build and push service
+        needs: metadata
         run: |
-          cd ${{ matrix.services }}
-          docker buildx build --platform linux/amd64 --push . -t ghcr.io/0x77dev/streamity/recognition:latest
+          cd ${{ matrix.service }}
+          docker buildx build \
+            --cache-from "type=local,src=/tmp/.buildx-cache" -cache-to "type=local,dest=/tmp/.buildx-cache" \
+            --platform ${{ matrix.platform }} --push . -t ${{ fromJson(steps.metadata.outputs.tags) }}
