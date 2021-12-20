@@ -44,9 +44,9 @@ jobs:
         id: metadata
         run: |
           if [[ $GITHUB_REF == 'refs/tags/'* ]]; then
-            TAGS='["ghcr.io/0x77dev/streamity/${{ matrix.service }}:latest","ghcr.io/0x77dev/streamity/${{ matrix.service }}:'${GITHUB_REF/refs\/tags\//}'"]'
+            TAGS='"ghcr.io/0x77dev/streamity/${{ matrix.service }}:'${GITHUB_REF/refs\/tags\//}'"'
           else
-            TAGS='["ghcr.io/0x77dev/streamity/${{ matrix.service }}:latest"]'
+            TAGS='"ghcr.io/0x77dev/streamity/${{ matrix.service }}:latest"'
           fi
           echo '::set-output name=tags::'$TAGS
 
