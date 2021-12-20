@@ -2,8 +2,6 @@ name: Build and Publish Docker Images
 
 on:
   push:
-    tags:
-      - "v*"
 
 jobs:
   setup:
