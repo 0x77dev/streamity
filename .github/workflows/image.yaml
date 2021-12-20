@@ -54,5 +54,5 @@ jobs:
         run: |
           cd ${{ matrix.service }}
           docker buildx build \
-            --cache-from "type=local,src=/tmp/.buildx-cache" -cache-to "type=local,dest=/tmp/.buildx-cache" \
+            --cache-from "type=local,src=/tmp/.buildx-cache" --cache-to "type=local,dest=/tmp/.buildx-cache" \
             --platform ${{ matrix.platform }} --push . -t ${{ fromJson(steps.metadata.outputs.tags) }}
