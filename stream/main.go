@@ -20,6 +20,16 @@ type Camera struct {
 	Src string `json:"src"`
 }
 
+func getenv(key, fallback string) string {
+    value := os.Getenv(key)
+    
+    if len(value) == 0 {
+        return fallback
+    }
+
+    return value
+}
+
 func main() {
 	classifier := gocv.NewCascadeClassifier()
 	defer classifier.Close()
@@ -29,7 +39,7 @@ func main() {
 		return
 	}
 
-	nc, err := nats.Connect(os.Getenv("NATS_URL"))
+	nc, err := nats.Connect(getenv("NATS_URL", "nats://localhost:4222"))
 	if err != nil {
 		panic(err)
 	}
