@@ -2,6 +2,12 @@
 
 Realtime face recognition for remote cameras
 
+## Disclaimer
+
+Highly experimental as of a moment, dirty codebase, unoptimised procedures
+
+Stage: PoC 
+
 ## Architecture
 
 ![Architecture overview](./assets/architecture.png)
